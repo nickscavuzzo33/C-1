@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+#include <web3/web3.h>
+
+using namespace std;
+using namespace web3;
+
+// Replace with your Ethereum node URL
+const string ETH_NODE_URL = "http://localhost:8545";
+
+int main()
+{
+    // Connect to Ethereum node
+    Web3 web3(ETH_NODE_URL);
+
+    // Replace with the address of the smart contract you want to audit
+    string contractAddress = "0x1234...";
+
+    // Get the contract's ABI (Application Binary Interface)
+    string abi = web3.getAbi(contractAddress);
+
+    // Parse the ABI into a usable object
+    ABI abiObject(abi);
+
+    // Iterate through all functions in the ABI
+    for (auto& function : abiObject.functions)
+    {
+        // Print function name and arguments
+        cout << function.name << "(";
+        for (size_t i = 0; i < function.inputs.size(); i++)
+        {
+            cout << function.inputs[i].type;
+            if (i < function.inputs.size() - 1)
+                cout << ", ";
+        }
+        cout << ")" << endl;
+    }
+
+    return 0;
+}
